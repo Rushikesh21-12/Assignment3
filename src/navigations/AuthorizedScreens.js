@@ -14,6 +14,14 @@ import ProductScreen from "../screens/authorizedScreens/ProductScreen";
 import CartScreen from "../screens/authorizedScreens/CartScreen";
 import OrderScreen from "../screens/authorizedScreens/OrderScreen";
 
+import DrawerContent from "../screens/authorizedScreens/subScreens/DrawerContent";
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const Icon = (props, {color}) => {
+    return <Ionicons name = {props.name} size = {25} color = {color} />
+}
+
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
     <ProfileStack.Navigator screenOptions = {{headerShown: false}}>
@@ -33,21 +41,101 @@ const SettingStackScreen = () => (
 
 const Tab = createMaterialBottomTabNavigator()
 const TabScreen = () => (
-    <Tab.Navigator screenOptions = {{headerShown: false}}>
-        <Tab.Screen name = 'HomeScreen' component = {HomeScreen}/>
-        <Tab.Screen name = 'ProfileStackScreen' component = {ProfileStackScreen}/>
-        <Tab.Screen name = 'SettingStackScreen' component = {SettingStackScreen}/>
+    <Tab.Navigator 
+        shifting = {true}
+        screenOptions = {({ route }) => ({
+            headerShown: false,
+
+            tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+
+                if (route.name === 'HomeScreen') 
+                    iconName = focused ? 'home': 'home-outline'
+
+                else if (route.name === 'ProfileStackScreen') 
+                    iconName = focused ? 'person' : 'person-outline'
+
+                else if (route.name === 'SettingStackScreen') 
+                    iconName = focused ? 'settings' : 'settings-outline'
+
+                else if (route.name === 'MB4') 
+                    iconName = focused ? 'heart' : 'heart-outline'
+                    
+                return <Ionicons name = {iconName} size = {20} color = {color} />
+            }
+        })}
+    >
+
+        <Tab.Screen 
+            name = 'HomeScreen' 
+            component = {HomeScreen} 
+            options = {{title: 'Home'}}
+        />
+
+        <Tab.Screen 
+            name = 'ProfileStackScreen' 
+            component = {ProfileStackScreen}
+            options = {{
+                title: 'Profile',
+                tabBarColor: 'green'
+            }}
+        />
+
+        <Tab.Screen 
+            name = 'SettingStackScreen' 
+            component = {SettingStackScreen}
+            options = {{
+                title: 'Setting',
+                tabBarColor: 'black'
+            }}
+        />
+
     </Tab.Navigator>
 )
 
 const AuthorizedStack = createDrawerNavigator()
 export default function AuthorizedScreens() {
     return(
-        <AuthorizedStack.Navigator>
-            <AuthorizedStack.Screen name = 'Home' component = {TabScreen} options = {{headerShown:false}}/>
-            <AuthorizedStack.Screen name = 'ProductScreen' component = {ProductScreen}/>
-            <AuthorizedStack.Screen name = 'CartScreen' component = {CartScreen}/>
-            <AuthorizedStack.Screen name = 'OrderScreen' component = {OrderScreen}/>
+        <AuthorizedStack.Navigator 
+            drawerContent = {props => <DrawerContent {...props}/>} 
+            screenOptions={{
+                drawerActiveTintColor: 'green'
+            }}
+        >
+
+            <AuthorizedStack.Screen 
+                name = 'Home' 
+                component = {TabScreen} 
+                options = {{
+                    headerShown: false, 
+                    drawerIcon: () => <Icon name = "home-outline"/>
+                }}
+            />
+
+            <AuthorizedStack.Screen 
+                name = 'ProductScreen' 
+                component = {ProductScreen}
+                options = {{
+                    drawerIcon: () => <Icon name = "logo-pinterest"/>
+                }}
+            />
+
+            <AuthorizedStack.Screen 
+                name = 'CartScreen' 
+                component = {CartScreen}
+                options = {{
+                    drawerIcon: () => <Icon name = "cart-outline"/>
+                }}
+            />
+
+            <AuthorizedStack.Screen 
+                name = 'OrderScreen' 
+                component = {OrderScreen}
+                options = {{
+                    drawerIcon: () => <Icon name = "clipboard-outline"/>
+                }}
+            />
+
         </AuthorizedStack.Navigator>
     )
 }

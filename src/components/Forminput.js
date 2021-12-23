@@ -5,7 +5,7 @@ export default function Forminput(props) {
     return (
         <View style = {styles.container}>
 
-            <Text style = {styles.label}>{props.label}</Text>
+            {props.label ? <Text style = {styles.label}>{props.label}</Text> : null}
 
             <TextInput {...props} style = {styles.textInput}/>
 

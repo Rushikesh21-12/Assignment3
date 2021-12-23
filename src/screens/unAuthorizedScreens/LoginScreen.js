@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button, Modal, TouchableOpacity } from 'react-native'
+import React, { useState, useContext } from 'react'
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native'
 import Forminput from '../../components/Forminput'
 
+import { AuthContext } from '../../context/context'
+
 export default function LoginScreen({navigation}) {
+
+    const {signIn} = useContext(AuthContext)
 
     const [userInfo, setUserInfo] = useState({
         userName: undefined,
@@ -13,8 +17,6 @@ export default function LoginScreen({navigation}) {
 
     const [errorUserName, setErrorUserName] = useState(undefined)
     const [errorPassword, setErrorPassword] = useState(undefined)
-
-    const [modalVisible, setModalVisible] = useState(false)
 
     const onChangeTextInput = (value, fieldName, setError) => {
         setUserInfo({...userInfo, [fieldName] : value})
@@ -35,73 +37,51 @@ export default function LoginScreen({navigation}) {
     }
 
     const onSignin = () => {
-        userName == undefined ? setErrorUserName('Required Field') : setErrorUserName('')
-        password == undefined ? setErrorPassword('Required Field') : setErrorPassword('')
+        userName == undefined ? setErrorUserName('Required Field') : null
+        password == undefined ? setErrorPassword('Required Field') : null
 
         if(errorUserName == '' && errorPassword == ''){
-            setModalVisible(true)
+            signIn(userName, password)
         }
     }
 
-    const onModalButtonPress = () => {
-        setModalVisible(false)
-        alert('modal button pressed')
-    }
 
     return (
-        <View style = {styles.container}>
+        <View style = {styles.mainContainer}>
 
-            <Modal
-                animationType = "slide"
-                transparent = {true}
-                visible = {modalVisible}
-            >
-                <View style = {styles.modalContainer}>
-                    <View style = {styles.modalView}>
-                        
-                        <View style = {styles.modalTextView}>
-                            <Text style = {styles.modalText}>Successfully Submitted!</Text>
-                        </View>
+            <View style = {styles.container}>
+                <Text style = {styles.loginText}>Login</Text>
 
-                        <TouchableOpacity
-                            style = {styles.modalButton}
-                            onPress = {() => onModalButtonPress()}
-                        >
-                        <Text style = {styles.modalButtonStyle}>OK</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-
-            <Text style = {styles.loginText}>Login</Text>
-
-            <Forminput
-                label = 'User Name'
-                placeholder = 'Enter user name'
-                onChangeText = {(value) => onChangeTextInput(value, 'userName', setErrorUserName)}
-                errorName = {errorUserName}
-            />
-
-            <Forminput
-                label = 'Password'
-                placeholder = 'Enter password'
-                onChangeText = {(value) => onChangeTextInput(value, 'password', setErrorPassword)}
-                errorName = {errorPassword}
-            /> 
-
-            <View style = {styles.button}>
-                <Button
-                    title = 'SignIn'
-                    onPress = {onSignin}
+                <Forminput
+                    label = 'User Name'
+                    placeholder = 'Enter user name'
+                    onChangeText = {(value) => onChangeTextInput(value, 'userName', setErrorUserName)}
+                    errorName = {errorUserName}
                 />
-            </View>
 
-            <TouchableOpacity onPress = {() => navigation.navigate('ForgotPasswordScreen')}>
-                <Text style = {styles.lastText}>Forgot Password? Get help logging in.</Text>
-            </TouchableOpacity>
+                <Forminput
+                    label = 'Password'
+                    placeholder = 'Enter password'
+                    onChangeText = {(value) => onChangeTextInput(value, 'password', setErrorPassword)}
+                    secureTextEntry = {true}
+                    errorName = {errorPassword}
+                /> 
+
+                <View style = {styles.button}>
+                    <Button
+                        title = 'Login'
+                        onPress = {onSignin}
+                    />
+                </View>
+
+                <TouchableOpacity onPress = {() => navigation.navigate('ForgotPasswordScreen')}>
+                    <Text style = {styles.lastText}>Forgot your login details? <Text style = {styles.lastBoldText}>Get help logging in.</Text></Text>
+                </TouchableOpacity>
+            </View>
+            
 
             <TouchableOpacity onPress = {() => navigation.navigate('RegisterScreen')} style = {styles.endText}>
-                <Text style = {styles.lastText}>Dont have an account? Sign Up.</Text>
+                <Text style = {styles.lastText}>Dont have an account? <Text style = {styles.lastBoldText}>Sign Up.</Text></Text>
             </TouchableOpacity>
             
         </View>
@@ -109,66 +89,41 @@ export default function LoginScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         flex: 1,
-        marginHorizontal: 30,
         justifyContent: 'center'
+    },
+
+    container:{
+        flex: 1,
+        justifyContent: 'center',
+        marginHorizontal: 30,
     },
 
     loginText: {
         textAlign: 'center',
         marginBottom: '7%',
-        fontSize: 35
+        fontSize: 35,
+        fontWeight: 'bold'
     },
 
     button: {
-        marginVertical: '5%'
+        marginVertical: '5%',
     },
 
     lastText: {
-        color: 'blue',
+        color: 'black',
         textAlign: 'center',
-        fontSize: 16
     },
 
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+    lastBoldText:{
+        fontWeight: 'bold',
+        color: '#050052'
     },
 
-    modalTextView:{
-        marginVertical: '10%'
-    },
-
-    modalView: {
-        backgroundColor: "white",
-        borderRadius: 10,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 4,
-        elevation: 5
-    },
-
-    modalButton: {
-        borderRadius: 10,
-        padding: 10,
-        elevation: 2,
-        width: 250,
-        backgroundColor: "#2196F3",
-    },
-
-    modalButtonStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-
-    modalText: {
-        textAlign: "center"
+    endText: {
+        height: '7%',
+        borderTopWidth: 1,
+        justifyContent: 'center'
     }
 })

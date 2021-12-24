@@ -24,18 +24,18 @@ const Icon = (props, {color}) => {
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
-    <ProfileStack.Navigator screenOptions = {{headerShown: false}}>
-        <ProfileStack.Screen name = 'ProfileScreen' component = {ProfileScreen}/>
-        <ProfileStack.Screen name = 'EditProfileScreen' component = {EditProfileScreen}/>
+    <ProfileStack.Navigator>
+        <ProfileStack.Screen name = 'ProfileScreen' component = {ProfileScreen} options = {{headerShown: false}}/>
+        <ProfileStack.Screen name = 'EditProfileScreen' component = {EditProfileScreen} options = {{title: 'Edit profile'}}/>
     </ProfileStack.Navigator>
 )
 
 const SettingStack = createNativeStackNavigator()
 const SettingStackScreen = () => (
-    <SettingStack.Navigator screenOptions = {{headerShown: false}}>
-        <ProfileStack.Screen name = 'SettingScreen' component = {SettingScreen}/>
-        <SettingStack.Screen name = 'PrivacyPolicyScreen' component = {PrivacyPolicyScreen}/>
-        <SettingStack.Screen name = 'AboutScreen' component = {AboutScreen}/>
+    <SettingStack.Navigator>
+        <ProfileStack.Screen name = 'SettingScreen' component = {SettingScreen} options = {{title: 'Settings'}}/>
+        <SettingStack.Screen name = 'PrivacyPolicyScreen' component = {PrivacyPolicyScreen} options = {{headerShown: false}}/>
+        <SettingStack.Screen name = 'AboutScreen' component = {AboutScreen} options = {{headerShown: false}}/>
     </SettingStack.Navigator>
 )
 
@@ -62,14 +62,17 @@ const TabScreen = () => (
                     iconName = focused ? 'heart' : 'heart-outline'
                     
                 return <Ionicons name = {iconName} size = {20} color = {color} />
-            }
+            },
         })}
     >
 
         <Tab.Screen 
             name = 'HomeScreen' 
             component = {HomeScreen} 
-            options = {{title: 'Home'}}
+            options = {{
+                title: 'Home',
+                tabBarColor: 'dodgerblue'
+            }}
         />
 
         <Tab.Screen 

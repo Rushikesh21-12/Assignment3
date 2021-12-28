@@ -7,8 +7,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 export default function ProfileScreen({navigation, route}) {
 
     const [image, setImage] = useState('https://i.postimg.cc/TYNx4qkz/default-profile.png')
-    const [firstName, setFirstName] = useState('Firstname')
-    const [lastName, setLastName] = useState('Lastname')
+    const [firstName, setFirstName] = useState(undefined)
+    const [lastName, setLastName] = useState(undefined)
     const [gender, setGender] = useState(undefined)
     const [age, setAge] = useState(undefined)
     const [bio, setBio] = useState('Add your bio...')
@@ -20,8 +20,7 @@ export default function ProfileScreen({navigation, route}) {
         route.params?.gender ? setGender(route.params?.gender) : null
         route.params?.age ? setAge(route.params?.age) : null
         route.params?.bio  ? setBio(route.params?.bio) : null
-        if (route.params?.image){ setImage(route.params?.image)
-        console.log(route.params?.lastName)}
+        route.params?.image ? setImage(route.params?.image) : null
         
     }, [route.params?.firstName, route.params?.lastName, route.params?.gender,
         route.params?.age, route.params?.bio, route.params?.image]
@@ -53,7 +52,10 @@ export default function ProfileScreen({navigation, route}) {
                 <Image source = {{uri : image}} style = {styles.profile}/>
 
                 <View style = {styles.userInfoView}>
-                    <Text style = {styles.nameStyle}>{firstName} {lastName}</Text>
+                    {firstName == undefined && lastName == undefined 
+                        ? <Text>Edit your profile to show details</Text>
+                        : <Text style = {styles.nameStyle}>{firstName} {lastName}</Text>
+                    }
 
                     {gender == undefined ? null : <Text style = {styles.genderAndAge}>Gender : {gender} </Text>}
                     {age == undefined ? null :  <Text style = {styles.genderAndAge}>Age : {age}</Text>}

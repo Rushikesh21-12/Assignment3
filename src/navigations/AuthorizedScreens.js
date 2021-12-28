@@ -34,7 +34,7 @@ const SettingStack = createNativeStackNavigator()
 const SettingStackScreen = () => (
     <SettingStack.Navigator>
         <ProfileStack.Screen name = 'SettingScreen' component = {SettingScreen} options = {{title: 'Settings'}}/>
-        <SettingStack.Screen name = 'PrivacyPolicyScreen' component = {PrivacyPolicyScreen} options = {{headerShown: false}}/>
+        <SettingStack.Screen name = 'PrivacyPolicyScreen' component = {PrivacyPolicyScreen} options = {{title: null}}/>
         <SettingStack.Screen name = 'AboutScreen' component = {AboutScreen} options = {{headerShown: false}}/>
     </SettingStack.Navigator>
 )
@@ -119,6 +119,7 @@ export default function AuthorizedScreens() {
                 name = 'ProductScreen' 
                 component = {ProductScreen}
                 options = {{
+                    title : 'Products',
                     drawerIcon: () => <Icon name = "logo-pinterest"/>
                 }}
             />
@@ -127,6 +128,7 @@ export default function AuthorizedScreens() {
                 name = 'CartScreen' 
                 component = {CartScreen}
                 options = {{
+                    title : 'My Cart',
                     drawerIcon: () => <Icon name = "cart-outline"/>
                 }}
             />
@@ -135,6 +137,7 @@ export default function AuthorizedScreens() {
                 name = 'OrderScreen' 
                 component = {OrderScreen}
                 options = {{
+                    title : 'Orders',
                     drawerIcon: () => <Icon name = "clipboard-outline"/>
                 }}
             />

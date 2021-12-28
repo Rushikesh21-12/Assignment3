@@ -43,7 +43,7 @@ export default function HomeScreen() {
     ]
     const FetchItem = ({item,  index}) => {
         return ( 
-            <View style={styles.sliderContainer}>
+            <View style = {styles.sliderContainer}>
                 <Image source = {{uri: item.src}} style = {styles.image}/>
             </View>
         )
@@ -61,7 +61,7 @@ export default function HomeScreen() {
     // ]
 
     return (
-        <View style = {{flex: 1}}>
+        <View style = {styles.container}>
             <View style = {styles.carousalContainer}>
                 <Carousel
                     layout = {"default"}

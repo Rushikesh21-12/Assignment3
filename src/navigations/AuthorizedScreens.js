@@ -110,7 +110,7 @@ export default function AuthorizedScreens() {
                 name = 'Home' 
                 component = {TabScreen} 
                 options = {{
-                    headerShown: false, 
+                    title: 'Home',
                     drawerIcon: () => <Icon name = "home-outline"/>
                 }}
             />

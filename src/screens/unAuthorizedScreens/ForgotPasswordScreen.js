@@ -23,6 +23,7 @@ export default function LoginScreen({navigation}) {
     const [start, setStart] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
     const [isEditable, setIsEditable] = useState(false)
+    const [isDisableOtpText, setIsDisableOtpText] = useState(false)
 
     const [errorEmail, setErrorEmail] = useState(undefined)
     const [errorOtp, setErrorOtp] = useState(undefined)
@@ -82,6 +83,7 @@ export default function LoginScreen({navigation}) {
             alert('OTP successfully sent on your mail')
             setIsDisabled(false)
             setIsEditable(true)
+            setIsDisableOtpText(true)
         }
         
     }
@@ -94,6 +96,7 @@ export default function LoginScreen({navigation}) {
                     setOTPText(`Resend`) 
                     setStart(false)
                     setSeconds(10)  
+                    setIsDisableOtpText(false)
                 }       
             }, 1000)
             return () => {
@@ -137,7 +140,7 @@ export default function LoginScreen({navigation}) {
                     onChangeText = {(value) => onChangeTextInput(value, 'email', setErrorEmail)}
                     errorName = {errorEmail}
                 />
-                <TouchableOpacity onPress = {onOTP}>
+                <TouchableOpacity onPress = {onOTP} disabled = {isDisableOtpText}>
                     <Text style = {styles.otpText}>{OTPText}</Text>
                 </TouchableOpacity>
                 
@@ -150,7 +153,7 @@ export default function LoginScreen({navigation}) {
                 />
 
                 <Forminput
-                    placeholder = 'CEnter new password'
+                    placeholder = 'Enter new password'
                     editable = {isEditable}
                     onChangeText = {(value) => onChangeTextInput(value, 'password', setErrorPassword)}
                     secureTextEntry = {true}

@@ -1,10 +1,18 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
 import Forminput from '../../components/Forminput'
 
 import { AuthContext } from '../../context/context'
 
 export default function LoginScreen({navigation}) {
+
+    const isFocused = useIsFocused()
+
+    useEffect(() => {
+        setErrorUserName(undefined)
+        setErrorPassword(undefined)
+    }, [isFocused])
 
     const {signIn} = useContext(AuthContext)
 

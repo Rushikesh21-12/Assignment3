@@ -1,5 +1,5 @@
 import React, {useMemo, useReducer, useEffect} from 'react'
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import UnAuthorizedScreens from './src/navigations/UnAuthoRizedScreens';
@@ -25,7 +25,7 @@ export default function App() {
         return {...state, userToken: action.token, username: action.id, isLoading: false}
 
       case 'LOGOUT':
-        return {...state, userToken: null, userNam: null, isLoading: false}
+        return {...state, userToken: null, username: null, isLoading: false}
 
       case 'REGISTER':
         return {...state, userToken: action.token, username: action.id, isLoading: false}
@@ -77,7 +77,7 @@ export default function App() {
 
   if(loginState.isLoading){
     return(
-      <View style = {{flex: 1, justifyContent:'center', alignItems:'center'}}>
+      <View style = {styles.spinner}>
         <ActivityIndicator size = 'large'/>
       </View>
     )
@@ -91,3 +91,11 @@ export default function App() {
     </AuthContext.Provider>
   )
 }
+
+const styles = StyleSheet.create({
+  spinner: {
+    flex: 1, 
+    justifyContent:'center', 
+    alignItems:'center'
+  }
+})
